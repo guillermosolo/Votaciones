@@ -18,9 +18,23 @@
     </div>
 </div>
 <div class="form-group row">
-    <label for="images" class="col-sm-12 col-lg-3 control-label text-sm-left text-lg-right">Seleccione Fotografías del
-        Acta</label>
-    <div class="col-lg-8">
-        <input class="form-control-file" type="file" name="images[]" id="images" accept="image/*" multiple required>
+    <label for="images" class="col-sm-12 col-lg-5 control-label text-sm-left text-lg-right">Fotografías del
+        Acta de Boletas de Presidente</label>
+    <div class="col-lg-4">
+        <input class="form-control-file" type="file" name="imagesPres[]" id="imagesPres" accept="image/*" multiple required>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="images" class="col-sm-12 col-lg-5 control-label text-sm-left text-lg-right">Fotografías del
+        Acta de Boletas de Diputado</label>
+    <div class="col-lg-4">
+        <input class="form-control-file" type="file" name="imagesDip[]" id="imagesDip" accept="image/*" multiple required>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="images" class="col-sm-12 col-lg-5 control-label text-sm-left text-lg-right">Fotografías del
+        Acta de Boletas de Alcalde</label>
+    <div class="col-lg-4">
+        <input class="form-control-file" type="file" name="imagesAl[]" id="imagesAl" accept="image/*" multiple required>
     </div>
 </div>

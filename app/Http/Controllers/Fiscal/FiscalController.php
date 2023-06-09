@@ -48,28 +48,56 @@ class FiscalController extends Controller
         return view('fiscal.mesa.cerrar');
     }
 
+    public function impugnar()
+    {
+    }
+
+    public function storeImpugnacion()
+    {
+    }
+
+    public function subirFotos(array $files, string $boleta, string $centroId, string $mesa)
+    {
+        $correlativo = 0;
+
+        foreach ($files as $file) {
+            $correlativo++;
+            $extension = $file->getClientOriginalExtension();
+            $fileName = $boleta.'_'.$centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
+            while (Storage::disk('public')->exists("$fileName")) {
+                $correlativo++;
+                $fileName = $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
+            }
+
+            $file->storeAs('', $fileName, 'public');
+        }
+    }
+
+    public static function borrarArchivos($centroId, $mesa)
+    {
+        $archivos = Storage::disk('public')->allFiles('/');
+        $patron = "/^.*" . $centroId . "_" . $mesa . "_.*\..+$/";
+
+        foreach ($archivos as $archivo) {
+            if (preg_match($patron, $archivo)) {
+                Storage::disk('public')->delete($archivo);
+            }
+        }
+    }
+
     public function cerrar(Request $request)
     {
         $centroId = $request->input('centro');
         $mesa = $request->input('mesa');
         DB::beginTransaction();
         try {
-            if ($request->hasFile('images')) {
-                $files = $request->file('images');
-                $correlativo = 0;
-
-                foreach ($files as $file) {
-                    $correlativo++;
-                    $extension = $file->getClientOriginalExtension();
-                    $fileName = $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
-
-                    while (Storage::exists("assets/img/actas/$fileName")) {
-                        $correlativo++;
-                        $fileName = $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
-                    }
-
-                    $file->storeAs('', $fileName, 'public');
-                }
+            if ($request->hasFile('imagesPres') && $request->hasFile('imagesDip') && $request->hasFile('imagesAl')) {
+                $files = $request->file('imagesPres');
+                $this->subirFotos($files,'P',$centroId,$mesa);
+                $files = $request->file('imagesDip');
+                $this->subirFotos($files,'D',$centroId,$mesa);
+                $files = $request->file('imagesAl');
+                $this->subirFotos($files,'A',$centroId,$mesa);
                 Resultado::where('centro_id', $centroId)->where('mesa', $mesa)->update(['cerrado' => true]);
                 $user = Auth::user();
                 $user->mesaCerrada = true;
@@ -78,13 +106,9 @@ class FiscalController extends Controller
             }
             return redirect('fiscal/fiscal')->with('mensaje', 'Mesa cerrada Exitosamente.');
         } catch (\Exception $e) {
-            // En caso de error, revertir las operaciones y eliminar las imágenes guardadas
             DB::rollBack();
-
-            foreach ($files as $file) {
-                Storage::disk('public')->delete("assets/img/actas/" . $file->hashName());
-            }
-            return redirect('fiscal/cerrar')->withErrors('Error al cerrar la mesa, <strong> Intente de nuevo</strong>.');
+            $this->borrarArchivos($centroId, $mesa);
+            return redirect('fiscal/cerrar')->withErrors("Error al cerrar la mesa, <strong> Intente de nuevo</strong>.");
         }
         return redirect('fiscal/cerrar')->withErrors('Debe de seleccionar como mínimo un archivo.');
     }

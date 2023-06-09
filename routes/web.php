@@ -61,6 +61,8 @@ Route::group(['prefix'=> 'fiscal','namespace' => 'Fiscal', 'middleware'=>['auth'
     Route::post('mesa',[FiscalController::class,'aperturar'])->name('mesa.aperturar');
     Route::get('cerrar',[FiscalController::class,'fotos'])->name('mesa.fotos');
     Route::post('cerrar',[FiscalController::class,'cerrar'])->name('mesa.cerrar');
+    Route::get('impugnar',[FiscalController::class,'impugnar'])->name('mesa.impugnar');
+    Route::post('impugnar',[FiscalController::class,'storeImpugnar'])->name('mesa.guardarImpugnacion');
     Route::get('presidente',[FiscalController::class,'presidente'])->name('presidente');
     Route::post('presidente',[FiscalController::class,'store'])->name('presidente.guardar');
     Route::get('diputado',[FiscalController::class,'diputado'])->name('diputado');

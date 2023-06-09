@@ -50,8 +50,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('assets/img/actas'),
-            'url' => env('APP_URL').'/assets/img/actas',
+            'root' => public_path('actas'),
+            'url' => env('APP_URL').'/actas',
             'visibility' => 'public',
         ],
 
