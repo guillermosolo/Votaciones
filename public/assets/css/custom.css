@@ -1,0 +1,39 @@
+label.requerido:after {
+    content: "*";
+    color: #e73d4a;
+}
+
+.btn-accion-tabla {
+    cursor: pointer;
+    border: none;
+    background: 0;
+    padding: 0 0 0 5px;
+    font-size: 14px !important;
+    line-height: 1.5;
+}
+
+.logo-img {
+    filter: invert(1);
+  }
+
+  @media only screen and (min-width: 100px) {
+    .fondo{
+        opacity: .2;
+        height: 300px;
+    }
+  }
+
+  @media only screen and (min-width: 600px) {
+    .fondo{
+        opacity: .2;
+        height: 400px;
+    }
+  }
+
+  @media only screen and (min-width: 900px) {
+
+.fondo{
+    opacity: .2;
+    height: 585px;
+}
+  }
