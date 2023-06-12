@@ -1,6 +1,34 @@
 @extends("theme.$theme.layout")
 @section('titulo')
-Administrador
+Dashboard
+@endsection
+
+@section('styles')
+<style>
+    .leyenda {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .leyenda-item {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    .leyenda-texto {
+        margin-right: 10px;
+    }
+</style>
+
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+@include('admin.chart')
 @endsection
 
 @section('aside')
@@ -53,7 +81,7 @@ Administrador
 @section('contenido')
 <section class="content">
     <div class="container-fluid">
-
+            @include('admin.dashboard')
     </div>
 </section>
 @endsection

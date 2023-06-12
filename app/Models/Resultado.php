@@ -18,4 +18,14 @@ class Resultado extends Model
         'cerrado',
         'validado'
     ];
+
+    public function partido()
+    {
+        return $this->belongsTo(Partido::class);
+    }
+
+    public function centroVotacion()
+    {
+        return $this->belongsTo(CentroVotacion::class, 'centro_id');
+    }
 }

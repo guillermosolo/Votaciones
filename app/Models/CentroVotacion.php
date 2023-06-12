@@ -23,5 +23,10 @@ class CentroVotacion extends Model
     {
         $centros = new CentroVotacion();
         return $centros->orderBy('nombre')->get();
-    } 
+    }
+
+    public function resultados()
+    {
+        return $this->hasMany(Resultado::class, 'centro_id');
+    }
 }

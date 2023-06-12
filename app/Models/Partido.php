@@ -17,4 +17,9 @@ class Partido extends Model
         'alcalde',
         'diputado',
     ];
+
+    public function resultados()
+    {
+        return $this->hasMany(Resultado::class);
+    }
 }

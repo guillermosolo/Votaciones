@@ -30,6 +30,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix'=> 'administrador','namespace' => 'Admin', 'middleware'=>['auth','referrer']], function (){
     Route::get('admin',[AdminController::class,'index'])->name('menuAdmin');
+    Route::get('datosGrafico',[AdminController::class,'obtenerDatosGrafico'])->name('datosGrafico');
 
     Route::get('usuario',[UsuarioController::class,'index'])->name('usuarios');
     Route::get('usuario/crear',[UsuarioController::class,'create'])->name('usuarios.crear');
