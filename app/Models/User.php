@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasTimestamps, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -24,11 +25,14 @@ class User extends Authenticatable
         'email',
         'password',
         'tipo',
-        'centro_id',
         'mesa',
         'papeletas',
         'mesaCerrada',
-        'mesaImpugnada'
+        'mesaImpugnada',
+        'mesaValidadaPres',
+        'mesaValidadaDip',
+        'mesaValidadaAl',
+        'activo'
     ];
 
     /**
@@ -65,15 +69,16 @@ class User extends Authenticatable
         return null;
     }
 
-    public function centroVotacion()
+    public function centroVotaciones()
     {
-        return $this->belongsTo('App\Models\CentroVotacion','centro_id','id');
+        return $this->belongsToMany(CentroVotacion::class, 'user_centro_votacion')->withTimestamps();
     }
 
-    public function todosDatos(){
+    public function todosDatos()
+    {
         $boletas = Resultado::select(DB::raw('COUNT(DISTINCT boleta) as conteo'))->first();
         $conteo = $boletas->conteo;
-        if ($conteo == 3){
+        if ($conteo == 3) {
             return true;
         } else {
             return false;

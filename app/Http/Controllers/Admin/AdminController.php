@@ -126,6 +126,8 @@ class AdminController extends Controller
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
             ->where('boleta', 'P')
+            ->where('cerrado',true)
+            ->where('validado',true)
             ->groupBy('partido_id')
             ->get();
 
@@ -158,6 +160,8 @@ class AdminController extends Controller
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
             ->where('boleta', 'A')
+            ->where('cerrado',true)
+            ->where('validado',true)
             ->groupBy('partido_id')
             ->get();
 
@@ -190,6 +194,8 @@ class AdminController extends Controller
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
             ->where('boleta', 'D')
+            ->where('cerrado',true)
+            ->where('validado',true)
             ->groupBy('partido_id')
             ->get();
 

@@ -50,10 +50,32 @@ class FiscalController extends Controller
 
     public function impugnar()
     {
+        return view('fiscal.mesa.impugnar');
     }
 
-    public function storeImpugnacion()
+    public function storeImpugnar(Request $request)
     {
+        $centroId = $request->input('centro');
+        $mesa = $request->input('mesa');
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile('images')) {
+                $files = $request->file('images');
+                $this->subirFotos($files, 'I', $centroId, $mesa);
+                Resultado::where('centro_id', $centroId)->where('mesa', $mesa)->delete();
+                $user = Auth::user();
+                $user->mesaImpugnada = true;
+                $user->save();
+                DB::commit();
+            } else {
+                return redirect('fiscal/impugnar')->withErrors('Debe de seleccionar como mínimo un archivo.');
+            }
+            return redirect('fiscal/fiscal')->with('mensaje', 'Impugnación guardada exitosamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->borrarArchivos($centroId, $mesa);
+            return redirect('fiscal/impugnar')->withErrors("Error al guardar impugnación, <strong> Intente de nuevo</strong>.");
+        }
     }
 
     public function subirFotos(array $files, string $boleta, string $centroId, string $mesa)
@@ -63,7 +85,7 @@ class FiscalController extends Controller
         foreach ($files as $file) {
             $correlativo++;
             $extension = $file->getClientOriginalExtension();
-            $fileName = $boleta.'_'.$centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
+            $fileName = $boleta . '_' . $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
             while (Storage::disk('public')->exists("$fileName")) {
                 $correlativo++;
                 $fileName = $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
@@ -73,7 +95,7 @@ class FiscalController extends Controller
         }
     }
 
-    public static function borrarArchivos($centroId, $mesa)
+    public function borrarArchivos($centroId, $mesa)
     {
         $archivos = Storage::disk('public')->allFiles('/');
         $patron = "/^.*" . $centroId . "_" . $mesa . "_.*\..+$/";
@@ -93,16 +115,18 @@ class FiscalController extends Controller
         try {
             if ($request->hasFile('imagesPres') && $request->hasFile('imagesDip') && $request->hasFile('imagesAl')) {
                 $files = $request->file('imagesPres');
-                $this->subirFotos($files,'P',$centroId,$mesa);
+                $this->subirFotos($files, 'P', $centroId, $mesa);
                 $files = $request->file('imagesDip');
-                $this->subirFotos($files,'D',$centroId,$mesa);
+                $this->subirFotos($files, 'D', $centroId, $mesa);
                 $files = $request->file('imagesAl');
-                $this->subirFotos($files,'A',$centroId,$mesa);
+                $this->subirFotos($files, 'A', $centroId, $mesa);
                 Resultado::where('centro_id', $centroId)->where('mesa', $mesa)->update(['cerrado' => true]);
                 $user = Auth::user();
                 $user->mesaCerrada = true;
                 $user->save();
                 DB::commit();
+            } else {
+                return redirect('fiscal/cerrar')->withErrors('Debe de seleccionar como mínimo un archivo.');
             }
             return redirect('fiscal/fiscal')->with('mensaje', 'Mesa cerrada Exitosamente.');
         } catch (\Exception $e) {
@@ -110,7 +134,6 @@ class FiscalController extends Controller
             $this->borrarArchivos($centroId, $mesa);
             return redirect('fiscal/cerrar')->withErrors("Error al cerrar la mesa, <strong> Intente de nuevo</strong>.");
         }
-        return redirect('fiscal/cerrar')->withErrors('Debe de seleccionar como mínimo un archivo.');
     }
 
     public function aperturar(Request $request)
@@ -143,9 +166,9 @@ class FiscalController extends Controller
                 break;
         }
         $cantidadVotos = array_sum($votos);
-        if ($cantidadVotos != $user->papeletas) {
+       /* if ($cantidadVotos != $user->papeletas) {
             return redirect()->route($ruta)->withErrors("La cantidad de papeletas reportadas <strong>($cantidadVotos)</strong> no coincide con la cantidad de papeletas de apertura <strong>($user->papeletas)</strong>.")->withInput();
-        }
+        }*/
         DB::beginTransaction();
         try {
             Resultado::where('centro_id', $centroid)->where('mesa', $mesa)->where('boleta', $boleta)->delete();

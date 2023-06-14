@@ -1,7 +1,7 @@
 @auth
-@if (isset(auth()->user()->centro_id) && isset(auth()->user()->mesa))
+@if (isset(auth()->user()->centroVotaciones->first()->id) && isset(auth()->user()->mesa))
 <input type="hidden" name="mesa" value="{{auth()->user()->mesa}}">
-<input type="hidden" name="centro" value="{{auth()->user()->centro_id}}">
+<input type="hidden" name="centro" value="{{auth()->user()->centroVotaciones->first()->id}}">
 <input type="hidden" name="boleta" value="A">
 <table class="table table-striped  table-hover" id="tabla-data">
     <thead class='thead-dark'>

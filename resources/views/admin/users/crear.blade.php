@@ -10,9 +10,9 @@ Usuarios
 
 
 @section('scripts')
-<script src="{{asset("assets/pages/scripts/admin/crear.js")}}" type="text/javascript"></script>
 <script src="{{asset("assets/$theme/plugins/select2/js/select2.full.min.js")}}"></script>
 <script src="{{asset("assets/$theme/plugins/select2/js/i18n/es.js")}}"></script>
+<script src="{{asset("assets/pages/scripts/admin/crear.js")}}" type="text/javascript"></script>
 @endsection
 
 @section('aside')

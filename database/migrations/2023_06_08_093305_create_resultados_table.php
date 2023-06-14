@@ -17,7 +17,7 @@ class CreateResultadosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('centro_id');
             $table->foreign('centro_id')->references('id')->on('centro_votacion');
-            $table->unsignedInteger('mesa');
+            $table->string('mesa');
             $table->unsignedBigInteger('partido_id');
             $table->foreign('partido_id')->references('id')->on('partidos');
             $table->char('boleta');

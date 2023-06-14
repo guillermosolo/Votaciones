@@ -36,7 +36,12 @@ class HomeController extends Controller
                     return redirect()->route('menuFiscal');
                     break;
                 case 3:
-                    return redirect()->route('menuSuper');
+                    if (!Auth::user()->centroVotaciones->isEmpty()) {
+                        $centros = implode(',', Auth::user()->centroVotaciones->pluck('id')->toArray());
+                        return redirect()->route('menuSuper', ['centroVotacion' => $centros]);
+                    } else {
+                        return redirect()->route('menuSuper', ['centroVotacion' => '0']);
+                    }
                     break;
                 default:
                     abort(403);

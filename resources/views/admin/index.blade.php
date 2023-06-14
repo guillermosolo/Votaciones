@@ -1,29 +1,8 @@
 @extends("theme.$theme.layout")
 @section('titulo')
-Dashboard
-@endsection
-
-@section('styles')
-<style>
-    .leyenda {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .leyenda-item {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-    }
-
-    .leyenda-texto {
-        margin-right: 10px;
-    }
-</style>
 
 @endsection
+
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

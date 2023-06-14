@@ -47,7 +47,7 @@
             data: {
                 labels: partidosPres,
                 datasets: [{
-                    label: 'Presidente',
+                    label: 'Total',
                     data: [],
                     backgroundColor: datosPres.map(function(item) {
                         return item.color;
@@ -82,7 +82,7 @@
             data: {
                 labels: partidosAl,
                 datasets: [{
-                    label: 'Alcalde',
+                    label: 'Total',
                     data: [],
                     backgroundColor: datosAl.map(function(item) {
                         return item.color;
@@ -116,7 +116,7 @@
             data: {
                 labels: partidosDip,
                 datasets: [{
-                    label: 'Diputado',
+                    label: 'Total',
                     data: [],
                     backgroundColor: datosDip.map(function(item) {
                         return item.color;
@@ -175,7 +175,6 @@
                 });
         }, 10000); // 30 segundos = 30000 milisegundos
     }
-
     // Obtener los datos iniciales y crear los gráficos
     crearGraficos();
     refrescarGraficos();

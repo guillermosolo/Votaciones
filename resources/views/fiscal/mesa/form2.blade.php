@@ -11,10 +11,10 @@
 <div class="form-group row">
     <label for="centro" class="col-sm-12 col-lg-3 control-label text-sm-left text-lg-right">Centro de Votación</label>
     <div class="col-lg-2">
-        <input class="form-control" type="text" name="centro" value="{{ auth()->user()->centro_id }}" readonly>
+        <input class="form-control" type="text" name="centro" value="{{auth()->user()->centroVotaciones->first()->id}}" readonly>
     </div>
     <div class="col-lg-6">
-        <input class="form-control" type="text" name="centroNombre" value="{{ auth()->user()->centroVotacion->nombre }}" readonly>
+        <input class="form-control" type="text" name="centroNombre" value="{{ auth()->user()->centroVotaciones->first()->nombre }}" readonly>
     </div>
 </div>
 <div class="form-group row">

@@ -43,8 +43,14 @@ Usuarios
                                     <td>{{$data->username}}</td>
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->rol}}</td>
-                                    <td>{{$data->centroVotacion->nombre ??'   --'}}</td>
-                                    <td>{{$data->mesa??'   --'}}</td>
+                                    <td>
+                                        @if($data->centroVotaciones->isNotEmpty())
+                                           {!! nl2br(implode("\n", $data->centroVotaciones->pluck('nombre')->toArray())) !!}
+                                        @else
+                                            ----
+                                        @endif
+                                    </td>
+                                    <td>{{$data->mesa??'--'}}</td>
                                     <td>
                                         <a href="{{route('usuarios.editar',['id'=> $data->id])}}"
                                             class="btn-accion-tabla mr-4" data-toggle="tooltip"
@@ -54,12 +60,6 @@ Usuarios
                                             class="btn-accion-tabla eliminar-registro mr-4" data-toggle="tooltip"
                                             title="Eliminar este registro">
                                             <i class="text-danger far fa-trash-alt"></i></a>
-                                         @if($data->tipo==3)
-                                         <a href="#"
-                                            class="btn-accion-tabla mr-4" data-toggle="tooltip"
-                                            title="Asignar Centros de Votación">
-                                            <i class="fas fa-city"></i></a>
-                                         @endif
                                     </td>
                                 </tr>
                                 @endforeach

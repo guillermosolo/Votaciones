@@ -21,12 +21,14 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->smallInteger('tipo');
-            $table->unsignedBigInteger('centro_id')->nullable();
-            $table->foreign('centro_id')->references('id')->on('centro_votacion');
             $table->string('mesa')->nullable();
             $table->unsignedInteger('papeletas')->nullable();
             $table->boolean('mesaCerrada')->default(false);
+            $table->boolean('mesaValidadaPres')->default(false);
+            $table->boolean('mesaValidadaDip')->default(false);
+            $table->boolean('mesaValidadaAl')->default(false);
             $table->boolean('mesaImpugnada')->default(false);
+            $table->boolean('activo')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -73,9 +73,12 @@ Route::group(['prefix'=> 'fiscal','namespace' => 'Fiscal', 'middleware'=>['auth'
 });
 
 Route::group(['prefix'=> 'supervisor','namespace' => 'Supervisor', 'middleware'=>['auth','referrer']], function (){
-    Route::get('supervisor',[SupervisorController::class,'index'])->name('menuSuper');
+    Route::get('supervisor/{centroVotacion}',[SupervisorController::class,'index'])->name('menuSuper');
 
-
+    Route::get('presidente/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarPres'])->name('validarPresi');
+    Route::get('diputado/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarDip'])->name('validarDip');
+    Route::get('alcalde/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarAl'])->name('validarAl');
+    Route::put('presidente',[SupervisorController::class,'update'])->name('validar.guardar');
 });
 
 

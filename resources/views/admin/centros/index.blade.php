@@ -32,6 +32,8 @@ Centros de Votación
                                     <th>Area</th>
                                     <th>Empadronados</th>
                                     <th>Juntas Receptoras</th>
+                                    <th>Fiscales</th>
+                                    <th>Supervisores</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -43,6 +45,8 @@ Centros de Votación
                                     <td>{{$data->sector=='U' ? 'URBANO':'RURAL'}}</td>
                                     <td>{{$data->empadronados}}</td>
                                     <td>{{$data->JRV}}</td>
+                                    <td>{{$data->users->where('tipo',2)->count()}}</td>
+                                    <td>{{$data->users->where('tipo',3)->count()}}</td>
                                     <td>
                                         <a href="{{route('centros.editar',['id'=> $data->id])}}"
                                             class="btn-accion-tabla mr-4" data-toggle="tooltip"

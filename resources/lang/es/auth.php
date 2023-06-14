@@ -15,5 +15,6 @@ return [
 
     'failed' => 'Estas credenciales no coinciden con nuestros registros.',
     'throttle' => 'Demasiados intentos de acceso. Por favor inténtelo de nuevo en :seconds segundos.',
-
+    'inactive' => 'Tu cuenta está inactiva. Por favor, contacta al administrador.',
+    'password' => 'Contraseña Incorrecta.'
 ];

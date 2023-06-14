@@ -22,28 +22,44 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
-        User::create($request->all());
+        if (!($request->activo)) {
+            $request->merge(['activo' => '0']);
+        }
+        $data = $request->all();
+        $data['password'] = bcrypt($request->input('password'));
+        $usuario = User::create($data);
+        $usuario->centroVotaciones()->sync($request->input('centro_id'));
         return redirect('administrador/usuario')->with('mensaje', 'Usuario creado exitosamente.');
     }
 
     public function edit($id)
     {
         $data = User::findOrFail($id);
-        return view('admin.users.editar',compact('data'));
+        return view('admin.users.editar', compact('data'));
     }
 
     public function update(Request $request, $id)
     {
+        if (!($request->activo)) {
+            $request->merge(['activo' => '0']);
+        }
         $user = User::findOrFail($id);
-        if ($request->input('password')!= "********"){
+        if ($request->input('password') != "********") {
             $user->password = bcrypt($request->input('password'));
         }
         $user->name = $request->input('name');
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->tipo = $request->input('tipo');
-        $user->centro_id = $request->input('centro_id');
         $user->mesa = $request->input('mesa');
+        $user->activo = $request->input('activo');
+        $centros = $request->input('centro_id');
+        foreach ($centros as $key => $centroId) {
+            if ($centroId == 0) {
+                unset($centros[$key]);
+            }
+        }
+        $user->centroVotaciones()->sync($centros);
         $user->save();
         return redirect('administrador/usuario')->with('mensaje', 'Usuario actualizado correctamente.');
     }
