@@ -1,7 +1,7 @@
 <script>
     var chart1, chart2, chart3;
 
-    function actualizarDatosGraficos(partidosPres,partidosAl,partidosDip) {
+    function actualizarDatosGraficos(partidosPres, partidosAl, partidosDip) {
         // Preparar los datos para cada tipo de boleta
         var datosPresidente = partidosPres.map(function(item) {
             return item.total;
@@ -15,10 +15,22 @@
             return item.total;
         });
 
+        var maxDataValue = Math.max(...datosPresidente, ...datosAlcalde, ...datosDiputado);
+
+        // Agregar un margen a los datos
+        var margin = 50; // Ajusta este valor según tus necesidades
+        var maxDataValueWithMargin = maxDataValue + margin;
+
         // Actualizar los datos de cada gráfico
         chart1.data.datasets[0].data = datosPresidente;
         chart2.data.datasets[0].data = datosAlcalde;
         chart3.data.datasets[0].data = datosDiputado;
+
+        // Actualizar los límites del eje y en cada gráfico
+        chart1.options.scales.y.max = maxDataValueWithMargin;
+        chart2.options.scales.y.max = maxDataValueWithMargin;
+        chart3.options.scales.y.max = maxDataValueWithMargin;
+
 
         // Actualizar el gráfico
         chart1.update();
@@ -28,7 +40,7 @@
 
     function crearGraficos() {
         var datosPres = {!! json_encode($partidosPres) !!};
-        var datosDip = {!! json_encode($partidosDip)!!};
+        var datosDip = {!! json_encode($partidosDip) !!};
         var datosAl = {!! json_encode($partidosAl) !!};
         // Obtener los nombres de los partidos
         var partidosPres = datosPres.map(function(item) {
@@ -52,12 +64,12 @@
                     backgroundColor: datosPres.map(function(item) {
                         return item.color;
                     }),
-                    borderColor:'rgba(0, 0, 0, 1)',
+                    borderColor: 'rgba(0, 0, 0, 1)',
                     borderWidth: 1,
                     skipNull: true,
                     datalabels: {
-                        anchor:'end',
-                        align:'top'
+                        anchor: 'end',
+                        align: 'top'
                     }
                 }]
             },
@@ -90,8 +102,8 @@
                     borderColor: 'rgba(0, 0, 0, 1)',
                     borderWidth: 1,
                     datalabels: {
-                        anchor:'end',
-                        align:'top'
+                        anchor: 'end',
+                        align: 'top'
                     }
                 }]
             },
@@ -124,8 +136,8 @@
                     borderColor: 'rgba(0, 0, 0, 1)',
                     borderWidth: 1,
                     datalabels: {
-                        anchor:'end',
-                        align:'top'
+                        anchor: 'end',
+                        align: 'top'
                     }
                 }]
             },
@@ -143,9 +155,6 @@
                 }
             }
         });
-
-        // Actualizar los datos iniciales
-        actualizarDatosGraficos(datosPres,datosAl,datosDip);
     }
 
     function refrescarGraficos() {
@@ -155,7 +164,7 @@
                 return response.json();
             })
             .then(function(data) {
-                actualizarDatosGraficos(data.partidosPres,data.partidosAl,data.partidosDip);
+                actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip);
             })
             .catch(function(error) {
                 console.log(error);
@@ -168,7 +177,7 @@
                     return response.json();
                 })
                 .then(function(data) {
-                    actualizarDatosGraficos(data.partidosPres,data.partidosAl,data.partidosDip);
+                    actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip);
                 })
                 .catch(function(error) {
                     console.log(error);

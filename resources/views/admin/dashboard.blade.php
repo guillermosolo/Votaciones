@@ -1,5 +1,5 @@
 <div class="row mt-5">
-    <div class="col-md-10">
+   <!-- <div class="col-md-12"> -->
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+   <!-- <div class="col-md-2">
         <div class="card sticky-top">
             <div class="card-header">
                 Leyenda
@@ -69,4 +69,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
