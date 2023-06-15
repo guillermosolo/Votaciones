@@ -64,7 +64,9 @@
                     backgroundColor: datosPres.map(function(item) {
                         return item.color;
                     }),
-                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderColor: datosPres.map(function(item) {
+                        return item.colorB;
+                    }),
                     borderWidth: 1,
                     skipNull: true,
                     datalabels: {
@@ -99,7 +101,9 @@
                     backgroundColor: datosAl.map(function(item) {
                         return item.color;
                     }),
-                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderColor: datosPres.map(function(item) {
+                        return item.colorB;
+                    }),
                     borderWidth: 1,
                     datalabels: {
                         anchor: 'end',
@@ -133,7 +137,9 @@
                     backgroundColor: datosDip.map(function(item) {
                         return item.color;
                     }),
-                    borderColor: 'rgba(0, 0, 0, 1)',
+                    borderColor: datosPres.map(function(item) {
+                        return item.colorB;
+                    }),
                     borderWidth: 1,
                     datalabels: {
                         anchor: 'end',
