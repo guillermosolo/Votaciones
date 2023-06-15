@@ -15,14 +15,19 @@ class SupervisorController extends Controller
     public function index($centroVotacion)
     {
         $centroVotacionIds = explode(',', $centroVotacion);
-        $datas = User::where('mesaCerrada', true)
-            ->where('mesaImpugnada', false)
-            ->where('tipo', 2)
-            ->where(function ($query) {
-                $query->where('mesaValidadaPres', false)
-                    ->orWhere('mesaValidadaAl', false)
-                    ->orWhere('mesaValidadaDip', false);
+        $datas = User::where(function ($query) {
+            $query->where('mesaCerrada', true)
+                ->where(function ($subquery) {
+                    $subquery->where('mesaValidadaPres', false)
+                        ->orWhere('mesaValidadaAl', false)
+                        ->orWhere('mesaValidadaDip', false);
+                });
+        })
+            ->orWhere(function ($query) {
+                $query->where('mesaImpugnada', true)
+                    ->where('mesaValidadaImp', false);
             })
+            ->where('tipo', 2)
             ->whereHas('centroVotaciones', function ($query) use ($centroVotacionIds) {
                 $query->whereIn('centro_votacion_id', $centroVotacionIds);
             })
@@ -56,7 +61,21 @@ class SupervisorController extends Controller
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
             ->orderBy('partidos.presidente', 'asc')->get();
         $imagenes = $this->listarArchivos($centroVotacion, $mesa, 'P');
-        return view('supervisor.presidente.index', compact('datas', 'centroVotacion', 'mesa','fiscal', 'imagenes'));
+        return view('supervisor.presidente.index', compact('datas', 'centroVotacion', 'mesa', 'fiscal', 'imagenes'));
+    }
+
+    public function validarImp($centroVotacion, $mesa, $fiscal){
+        $imagenes = $this->listarArchivos($centroVotacion, $mesa, 'I');
+        return view('supervisor.impugnada.index', compact('centroVotacion', 'mesa', 'fiscal', 'imagenes'));
+    }
+
+    public function updateImp(Request $request){
+        $fiscal = $request->input('fiscal');
+        $centro = $request->input('centro');
+        $mesa = $request->input('mesa');
+        User::where('id', $fiscal)->update(['mesaValidadaImp' => 1]);
+        $centroNombre = CentroVotacion::where('id', $centro)->value('nombre');
+        return redirect()->route('menuSuper', ['centroVotacion' => $centro])->with('mensaje', "Se validaron correctamente la impugnación de la Mesa No. $mesa del Centro de Votacion $centroNombre.");
     }
 
     public function validarDip($centroVotacion, $mesa, $fiscal)
@@ -69,7 +88,7 @@ class SupervisorController extends Controller
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
             ->orderBy('partidos.diputado', 'asc')->get();
         $imagenes = $this->listarArchivos($centroVotacion, $mesa, 'D');
-        return view('supervisor.diputado.index', compact('datas', 'centroVotacion', 'mesa','fiscal', 'imagenes'));
+        return view('supervisor.diputado.index', compact('datas', 'centroVotacion', 'mesa', 'fiscal', 'imagenes'));
     }
 
     public function validarAl($centroVotacion, $mesa, $fiscal)
@@ -82,7 +101,7 @@ class SupervisorController extends Controller
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
             ->orderBy('partidos.alcalde', 'asc')->get();
         $imagenes = $this->listarArchivos($centroVotacion, $mesa, 'A');
-        return view('supervisor.alcalde.index', compact('datas', 'centroVotacion', 'mesa','fiscal', 'imagenes'));
+        return view('supervisor.alcalde.index', compact('datas', 'centroVotacion', 'mesa', 'fiscal', 'imagenes'));
     }
 
     public function update(Request $request)
@@ -139,7 +158,7 @@ class SupervisorController extends Controller
         } catch (\Exception $e) {
             // Deshacer la transacción en caso de error
             DB::rollBack();
-            return redirect()->route($ruta,['centroVotacion' => $centro, 'mesa' => $mesa,'fiscal'=>$fiscal])->withErrors(['catch', 'No se pudo validar debido a un error en el sistema', $e->getMessage()]);
+            return redirect()->route($ruta, ['centroVotacion' => $centro, 'mesa' => $mesa, 'fiscal' => $fiscal])->withErrors(['catch', 'No se pudo validar debido a un error en el sistema', $e->getMessage()]);
         }
         $centroNombre = CentroVotacion::where('id', $centro)->value('nombre');
         return redirect()->route('menuSuper', ['centroVotacion' => $centro])->with('mensaje', "Se validaron correctamente $cantidadVotos votos del Centro de Votacion $centroNombre Mesa No. $mesa");

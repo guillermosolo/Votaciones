@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->boolean('mesaValidadaDip')->default(false);
             $table->boolean('mesaValidadaAl')->default(false);
             $table->boolean('mesaImpugnada')->default(false);
+            $table->boolean('mesaValidadaImp')->default(false);
             $table->boolean('activo')->default(true);
             $table->rememberToken();
             $table->timestamps();

@@ -11,9 +11,11 @@ use App\Dhondt;
 use App\Models\CentroVotacion;
 use App\Models\User;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AdminController extends Controller
 {
-    private $colores,$coloresB;
+    private $colores, $coloresB;
 
     public function __construct()
     {
@@ -97,7 +99,7 @@ class AdminController extends Controller
     }
     public function index()
     {
-        //dd($this->datosNoGraficados());
+        //dd($this->datosNoGraficados(1));
         // Recuperar todos los partidos
         $partidos = Partido::where('presidente', '>', 0)->get();
 
@@ -113,7 +115,7 @@ class AdminController extends Controller
             $datosPartido = [
                 'nombre' => $partido->siglas,
                 'color' => $this->colores[$partido->id - 1],
-                'colorB'=>$this->coloresB[$partido->id - 1],
+                'colorB' => $this->coloresB[$partido->id - 1],
                 'id' => $partido->id,
             ];
             $partidosPres[] = $datosPartido;
@@ -128,7 +130,7 @@ class AdminController extends Controller
             $datosPartido = [
                 'nombre' => $partido->siglas,
                 'color' => $this->colores[$partido->id - 1],
-                'colorB'=>$this->coloresB[$partido->id - 1],
+                'colorB' => $this->coloresB[$partido->id - 1],
                 'id' => $partido->id,
             ];
             $partidosDip[] = $datosPartido;
@@ -143,7 +145,7 @@ class AdminController extends Controller
             $datosPartido = [
                 'nombre' => $partido->siglas,
                 'color' => $this->colores[$partido->id - 1],
-                'colorB'=>$this->coloresB[$partido->id - 1],
+                'colorB' => $this->coloresB[$partido->id - 1],
                 'id' => $partido->id,
             ];
             $partidosAl[] = $datosPartido;
@@ -157,7 +159,7 @@ class AdminController extends Controller
             $datosPartido = [
                 'nombre' => $partido->siglas,
                 'color' => $this->colores[$partido->id - 1],
-                'colorB'=>$this->coloresB[$partido->id - 1],
+                'colorB' => $this->coloresB[$partido->id - 1],
                 'id' => $partido->id,
             ];
             $partidosT[] = $datosPartido;
@@ -167,34 +169,38 @@ class AdminController extends Controller
         return view('admin.index', compact('partidosPres', 'partidosAl', 'partidosDip', 'partidosT'));
     }
 
-    public function datosNoGraficados()
+    public function datosNoGraficados($arregloOpciones)
     {
         $totalAlcalde = Resultado::where('validado', true)
             ->where('boleta', 'A')
             ->where('partido_id', '<=', 31)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first();
+            ->pluck('votes')->first()??0;
         $totalPresidente = Resultado::where('validado', true)
             ->where('boleta', 'P')
             ->where('partido_id', '<=', 31)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first();
+            ->pluck('votes')->first()??0;
         $totalDiputado = Resultado::where('validado', true)
             ->where('boleta', 'D')
             ->where('partido_id', '<=', 31)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first();
+            ->pluck('votes')->first()??0;
         $mesasComputadas = User::where(function ($query) {
             $query->where('mesaValidadaPres', true)
                 ->where('mesaValidadaAl', true)
                 ->where('mesaValidadaDip', true);
         })
-            ->orWhere('mesaImpugnada', true)
+            ->orWhere(function ($query) {
+                $query->where('mesaImpugnada', true)
+                    ->where('mesavalidadaImp', true);
+            })
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')->first();
         $mesasTotal = CentroVotacion::select(DB::raw('SUM(JRV) as mesas'))->pluck('mesas')->first();
         $mesasPorcentaje = number_format(($mesasComputadas * 100) / $mesasTotal, 2) . '%';
         $mesasImpugnadas = User::where('mesaImpugnada', true)
+            ->where('mesaValidadaImp', true)
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')->first();
         $votosOtros = Resultado::where('validado', true)
@@ -230,23 +236,31 @@ class AdminController extends Controller
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
             ->groupBy('partidos.id')
             ->select('partidos.siglas as ent', DB::raw('SUM(resultados.cantidad) as votes'), DB::raw('0 as seats'), DB::raw('true as ok'))
-            ->get()->toArray();
-        $d->addParties($resultados);
-        $d->process();
-        $data = $d->getPartiesOK();
-        $jsonData += ['concejales' => $data];
+            ->get();
+        if ($resultados->isEmpty()) {
+            $jsonData += ['concejales' => []];
+        } else {
+            $d->addParties($resultados->toArray());
+            $d->process();
+            $data = $d->getPartiesOK();
+            $jsonData += ['concejales' => $data];
+        }
         return $jsonData;
     }
 
-    public function obtenerDatosGrafico()
+    public function obtenerDatosGrafico(Request $request)
     {
-        $datosExtra = $this->datosNoGraficados();
+        $arregloOpciones = explode(",", $request->input('arregloOpciones'));
+
+        $datosExtra = $this->datosNoGraficados($arregloOpciones);
         $partidos = Partido::where('presidente', '>', 0)->get();
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'P')
             ->where('cerrado', true)
             ->where('validado', true)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->groupBy('partido_id')
             ->get();
 
@@ -276,9 +290,11 @@ class AdminController extends Controller
         $partidos = Partido::where('alcalde', '>', 0)->get();
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'A')
             ->where('cerrado', true)
             ->where('validado', true)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->groupBy('partido_id')
             ->get();
 
@@ -308,9 +324,11 @@ class AdminController extends Controller
         $partidos = Partido::where('diputado', '>', 0)->get();
 
         $resultados = Resultado::select('partido_id', DB::raw('SUM(cantidad) as total_cantidad'))
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'D')
             ->where('cerrado', true)
             ->where('validado', true)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->groupBy('partido_id')
             ->get();
 
@@ -336,7 +354,6 @@ class AdminController extends Controller
 
             $partidosDip[] = $datosPartido;
         }
-
         return response()->json([
             'partidosPres' => $partidosPres,
             'partidosAl' => $partidosAl,

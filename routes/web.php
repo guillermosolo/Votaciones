@@ -30,7 +30,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix'=> 'administrador','namespace' => 'Admin', 'middleware'=>['auth','referrer']], function (){
     Route::get('admin',[AdminController::class,'index'])->name('menuAdmin');
-    Route::get('datosGrafico',[AdminController::class,'obtenerDatosGrafico'])->name('datosGrafico');
+    Route::get('datosGrafico/{arregloOpciones}',[AdminController::class,'obtenerDatosGrafico'])->name('datosGrafico');
 
     Route::get('usuario',[UsuarioController::class,'index'])->name('usuarios');
     Route::get('usuario/crear',[UsuarioController::class,'create'])->name('usuarios.crear');
@@ -78,7 +78,9 @@ Route::group(['prefix'=> 'supervisor','namespace' => 'Supervisor', 'middleware'=
     Route::get('presidente/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarPres'])->name('validarPresi');
     Route::get('diputado/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarDip'])->name('validarDip');
     Route::get('alcalde/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarAl'])->name('validarAl');
-    Route::put('presidente',[SupervisorController::class,'update'])->name('validar.guardar');
+    Route::get('impugnada/{centroVotacion}/{mesa}/{fiscal}',[SupervisorController::class,'validarImp'])->name('validarImp');
+    Route::put('validada',[SupervisorController::class,'update'])->name('validar.guardar');
+    Route::put('impugnada',[SupervisorController::class,'updateImp'])->name('validarImp.guardar');
 });
 
 

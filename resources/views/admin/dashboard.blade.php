@@ -1,4 +1,12 @@
-<div class="row mt-5">
+<div class="row">
+<div style="text-align: right;">
+    <label for="checkboxUrbano">Urbano</label>
+    <input type="checkbox" id="checkboxUrbano" name="arregloOpciones[]" value="U" checked>
+    <label for="checkboxRural">Rural</label>
+    <input type="checkbox" id="checkboxRural" name="arregloOpciones[]" value="R" checked>
+</div>
+</div>
+<div class="row">
    <!-- <div class="col-md-12"> -->
         <div class="col-md-12">
             <div class="card">

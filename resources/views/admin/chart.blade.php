@@ -1,5 +1,36 @@
 <script>
     var chart1, chart2, chart3;
+    var intervaloActualizacion;
+    var opcionesSeleccionadas = new Set(['U', 'R']);
+
+    // Evento click del checkbox "Urbano"
+    document.getElementById("checkboxUrbano").addEventListener("click", function() {
+        if (this.checked) {
+            opcionesSeleccionadas.add("U");
+        } else {
+            opcionesSeleccionadas.delete("U");
+        }
+        enviarOpcionesSeleccionadas();
+    });
+
+    // Evento click del checkbox "Rural"
+    document.getElementById("checkboxRural").addEventListener("click", function() {
+        if (this.checked) {
+            opcionesSeleccionadas.add("R");
+        } else {
+            opcionesSeleccionadas.delete("R");
+        }
+        enviarOpcionesSeleccionadas();
+    });
+
+    function enviarOpcionesSeleccionadas() {
+        var arregloOpciones = Array.from(opcionesSeleccionadas);
+        if (arregloOpciones.length != 0) {
+            refrescarGraficos(arregloOpciones);
+        } else {
+            refrescarGraficos(['N']);
+        }
+    }
 
     function actualizarDatosGraficos(partidosPres, partidosAl, partidosDip) {
         // Preparar los datos para cada tipo de boleta
@@ -163,9 +194,19 @@
         });
     }
 
-    function refrescarGraficos() {
+    function refrescarGraficos(arregloOpciones) {
+        if (!arregloOpciones) {
+            arregloOpciones = ['U', 'R'];
+        }
+        var arregloOpcionesParametro = arregloOpciones.join(',');
+        // Construir la URL de la ruta con arregloOpciones como parámetro
+        var ruta = '{{ route('datosGrafico', ['arregloOpciones' => 'ARREGLO']) }}';
+        ruta = ruta.replace('ARREGLO', arregloOpcionesParametro);
+        // Detener el intervalo de actualización existente
+        clearInterval(intervaloActualizacion);
+
         // Obtener los datos desde el controlador
-        fetch('{{ route('datosGrafico') }}')
+        fetch(ruta)
             .then(function(response) {
                 return response.json();
             })
@@ -176,9 +217,10 @@
                 console.log(error);
             });
 
-        setInterval(function() {
+        // Iniciar el nuevo intervalo de actualización
+        intervaloActualizacion = setInterval(function() {
             // Obtener los datos desde el controlador
-            fetch('{{ route('datosGrafico') }}')
+            fetch(ruta)
                 .then(function(response) {
                     return response.json();
                 })
@@ -188,7 +230,7 @@
                 .catch(function(error) {
                     console.log(error);
                 });
-        }, 10000); // 30 segundos = 30000 milisegundos
+        }, 10000); // 10 segundos = 10000 milisegundos
     }
     // Obtener los datos iniciales y crear los gráficos
     crearGraficos();

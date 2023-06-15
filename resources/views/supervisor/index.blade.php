@@ -1,22 +1,25 @@
 @extends("theme.$theme.layout2")
 
 @section('styles')
-<style>
-.text-light-pink {
-    color: #EC407A; /* Reemplaza este valor con el color rosa más claro que desees */
-}
-.text-light-sky {
-    color: #1565C0; /* Reemplaza este valor con el color rosa más claro que desees */
-}
-.disabled {
-    color: currentColor;
-    cursor: not-allowed;
-    opacity: 0.5;
-    text-decoration: none;
-    pointer-events: none;
-}
+    <style>
+        .text-light-pink {
+            color: #EC407A;
+            /* Reemplaza este valor con el color rosa más claro que desees */
+        }
 
-</style>
+        .text-light-sky {
+            color: #1565C0;
+            /* Reemplaza este valor con el color rosa más claro que desees */
+        }
+
+        .disabled {
+            color: currentColor;
+            cursor: not-allowed;
+            opacity: 0.5;
+            text-decoration: none;
+            pointer-events: none;
+        }
+    </style>
 @endsection
 
 @section('contenido')
@@ -46,15 +49,22 @@
                                         <td>{{ $data->centroVotaciones->first()->nombre }}</td>
                                         <td>{{ $data->mesa }}</td>
                                         <td>
-                                            <a href="{{route('validarPresi',['centroVotacion'=>$data->centroVotaciones->first()->id,'mesa'=>$data->mesa,'fiscal'=>$data->id])}}" class="btn-accion-tabla mr-4 @if ($data->mesaValidadaPres) disabled @endif" data-toggle="tooltip"
-                                                title="Presidente">
+                                            <a href="{{ route('validarPresi', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaPres) disabled @endif"
+                                                data-toggle="tooltip" title="Presidente">
                                                 <i class="text-dark far fa-file-alt"></i></a>
-                                            <a href="{{route('validarDip',['centroVotacion'=>$data->centroVotaciones->first()->id,'mesa'=>$data->mesa,'fiscal'=>$data->id])}}" class="btn-accion-tabla mr-4 @if ($data->mesaValidadaDip) disabled @endif" data-toggle="tooltip"
-                                                title="Diputado">
+                                            <a href="{{ route('validarDip', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaDip) disabled @endif"
+                                                data-toggle="tooltip" title="Diputado">
                                                 <i class="text-light-sky fas fa-file-alt"></i></a>
-                                            <a href="{{route('validarAl',['centroVotacion'=>$data->centroVotaciones->first()->id,'mesa'=>$data->mesa,'fiscal'=>$data->id])}}" class="btn-accion-tabla mr-4 @if ($data->mesaValidadaAl) disabled @endif" data-toggle="tooltip"
-                                                title="Alcalde">
+                                            <a href="{{ route('validarAl', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaAl) disabled @endif"
+                                                data-toggle="tooltip" title="Alcalde">
                                                 <i class="text-light-pink fas fa-file-alt"></i></a>
+                                            <a href="{{ route('validarImp', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
+                                                class="btn-accion-tabla mr-4 @if (!$data->mesaImpuganda || ($data->mesaImpugnada && $data->mesaValidadaImp)) disabled @endif"
+                                                data-toggle="tooltip" title="Alcalde">
+                                                <i class="text-warning fas fa-file-alt"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
