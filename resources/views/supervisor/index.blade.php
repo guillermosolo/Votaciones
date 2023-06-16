@@ -50,19 +50,19 @@
                                         <td>{{ $data->mesa }}</td>
                                         <td>
                                             <a href="{{ route('validarPresi', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
-                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaPres) disabled @endif"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaPres || $data->mesaImpugnada) disabled @endif"
                                                 data-toggle="tooltip" title="Presidente">
                                                 <i class="text-dark far fa-file-alt"></i></a>
                                             <a href="{{ route('validarDip', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
-                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaDip) disabled @endif"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaDip || $data->mesaImpugnada) disabled @endif"
                                                 data-toggle="tooltip" title="Diputado">
                                                 <i class="text-light-sky fas fa-file-alt"></i></a>
                                             <a href="{{ route('validarAl', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
-                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaAl) disabled @endif"
+                                                class="btn-accion-tabla mr-4 @if ($data->mesaValidadaAl || $data->mesaImpugnada) disabled @endif"
                                                 data-toggle="tooltip" title="Alcalde">
                                                 <i class="text-light-pink fas fa-file-alt"></i></a>
                                             <a href="{{ route('validarImp', ['centroVotacion' => $data->centroVotaciones->first()->id, 'mesa' => $data->mesa, 'fiscal' => $data->id]) }}"
-                                                class="btn-accion-tabla mr-4 @if (!$data->mesaImpuganda || ($data->mesaImpugnada && $data->mesaValidadaImp)) disabled @endif"
+                                                class="btn-accion-tabla mr-4 @if (!$data->mesaImpugnada) disabled @endif"
                                                 data-toggle="tooltip" title="Alcalde">
                                                 <i class="text-warning fas fa-file-alt"></i></a>
                                         </td>

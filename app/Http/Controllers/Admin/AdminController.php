@@ -20,86 +20,86 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->colores = [
-            'rgba(255, 0, 0, 0.2)',    // 1: Rojo
-            'rgba(0, 255, 0, 0.2)',    // 2: Verde
-            'rgba(0, 0, 255, 0.2)',    // 3: Azul
-            'rgba(255, 255, 0, 0.2)',  // 4: Amarillo
-            'rgba(255, 0, 255, 0.2)',  // 5: Magenta
-            'rgba(0, 255, 255, 0.2)',  // 6: Cian
-            'rgba(128, 0, 0, 0.2)',    // 7: Marrón oscuro
-            'rgba(0, 128, 0, 0.2)',    // 8: Verde oscuro
-            'rgba(0, 0, 128, 0.2)',    // 9: Azul oscuro
-            'rgba(128, 128, 0, 0.2)',  // 10: Oliva
-            'rgba(128, 0, 128, 0.2)',  // 11: Púrpura
-            'rgba(0, 128, 128, 0.2)',  // 12: Verde azulado
-            'rgba(128, 128, 128, 0.2)', // 13: Gris
-            'rgba(255, 102, 102, 0.2)', // 14: Rojo claro
-            'rgba(102, 255, 102, 0.2)', // 15: Verde claro
-            'rgba(102, 102, 255, 0.2)', // 16: Azul claro
-            'rgba(255, 255, 102, 0.2)', // 17: Amarillo claro
-            'rgba(255, 102, 255, 0.2)', // 18: Magenta claro
-            'rgba(102, 255, 255, 0.2)', // 19: Cian claro
-            'rgba(153, 51, 0, 0.2)',   // 20: Marrón
-            'rgba(0, 153, 51, 0.2)',   // 21: Verde oliva
-            'rgba(51, 0, 153, 0.2)',   // 22: Púrpura oscuro
-            'rgba(153, 153, 0, 0.2)',  // 23: Verde oliva claro
-            'rgba(153, 0, 153, 0.2)',  // 24: Púrpura claro
-            'rgba(0, 153, 153, 0.2)',  // 25: Cian oscuro
-            'rgba(153, 153, 153, 0.2)', // 26: Gris claro
-            'rgba(255, 153, 102, 0.2)', // 27: Naranja claro
-            'rgba(102, 255, 153, 0.2)', // 28: Verde claro
-            'rgba(153, 102, 255, 0.2)', // 29: Lila claro
-            'rgba(255, 255, 153, 0.2)', // 30: Amarillo claro
-            'rgba(255, 153, 255, 0.2)', // 31: Rosa claro
-            'rgba(0, 0, 0, 0.2)',      // 32: Negro
-            'rgba(255, 255, 255, 0.2)', // 33: Blanco
-            'rgba(85, 85, 85, 0.2)',   // 34: Gris oscuro
-            'rgba(255, 255, 255, 0.2)', // 36: Gris claro
-            'rgba(170, 170, 170, 0.2)' // 35: Gris medio
+            'rgba(25, 28, 175, 0.2)',         //azul
+            'rgba(255, 183, 0, 0.2)',         //bien
+            'rgba(60, 92, 169, 0.2)',         //cabal
+            'rgba(33, 51, 104, 0.2)',         //cambio
+            'rgba(241, 202, 49, 0.2)',    //creo
+            'rgba(255, 238, 0, 0.2)',         //elefante
+            'rgba(155, 50, 28, 0.2)',        //fcn
+            'rgba(157, 252, 60, 0.2)',    //familia
+            'rgba(37, 65, 164, 0.2)',        //prosperidad
+            'rgba(33, 41, 90, 0.2)',        //humanista
+            'rgba(0, 0, 0, 0.2)',        //pin
+            'rgba(9, 37, 88, 0.2)',           //nosotros
+            'rgba(48, 60, 98, 0.2)',        //republicano
+            'rgba(215, 223, 40, 0.2)',        //semilla
+            'rgba(102, 45, 145, 0.2)',        //todos
+            'rgba(80, 167, 0, 0.2)',          //une
+            'rgba(49, 49, 144, 0.2)',         //republicana
+            'rgba(235, 210, 156, 0.2)',    //urng - winaq
+            'rgba(0, 155, 160, 0.2)',        //valor - unionista
+            'rgba(0, 155, 160, 0.2)',         //valor
+            'rgba(0, 104, 172, 0.2)',         //vamos
+            'rgba(237, 28, 36, 0.2)',         //victoria
+            'rgba(0, 163, 230, 0.2)',         //viva
+            'rgba(227, 0, 130, 0.2)',         //vos
+            'rgba(213, 52, 58, 0.2)',         //podemos
+            'rgba(255, 195, 0, 0.2)',         //mlp
+            'rgba(192, 134, 112, 0.2)',    //cherifon
+            'rgba(118, 210, 37, 0.2)',    //justicia
+            'rgba(243, 225, 153, 0.2)',    //pan
+            'rgba(235, 210, 156, 0.2)',    //winaq
+            'rgba(202, 184, 10, 0.2)',    //urng
+            'rgba(0, 0, 0, 0.2)',      // nulos
+            'rgba(255, 255, 255, 0.2)', // Blanco
+            'rgba(85, 85, 85, 0.2)',   // invalidos
+            'rgba(255, 255, 255, 0.2)', // impugnados
+            'rgba(170, 170, 170, 0.2)' // no usados
         ];
 
         $this->coloresB = [
-            'rgba(255, 0, 0, 1)',    // 1: Rojo
-            'rgba(0, 255, 0, 1)',    // 2: Verde
-            'rgba(0, 0, 255, 1)',    // 3: Azul
-            'rgba(255, 255, 0, 1)',  // 4: Amarillo
-            'rgba(255, 0, 255, 1)',  // 5: Magenta
-            'rgba(0, 255, 255, 1)',  // 6: Cian
-            'rgba(128, 0, 0, 1)',    // 7: Marrón oscuro
-            'rgba(0, 128, 0, 1)',    // 8: Verde oscuro
-            'rgba(0, 0, 128, 1)',    // 9: Azul oscuro
-            'rgba(128, 128, 0, 1)',  // 10: Oliva
-            'rgba(128, 0, 128, 1)',  // 11: Púrpura
-            'rgba(0, 128, 128, 1)',  // 12: Verde azulado
-            'rgba(128, 128, 128, 1)', // 13: Gris
-            'rgba(255, 102, 102, 1)', // 14: Rojo claro
-            'rgba(102, 255, 102, 1)', // 15: Verde claro
-            'rgba(102, 102, 255, 1)', // 16: Azul claro
-            'rgba(255, 255, 102, 1)', // 17: Amarillo claro
-            'rgba(255, 102, 255, 1)', // 18: Magenta claro
-            'rgba(102, 255, 255, 1)', // 19: Cian claro
-            'rgba(153, 51, 0, 1)',   // 20: Marrón
-            'rgba(0, 153, 51, 1)',   // 21: Verde oliva
-            'rgba(51, 0, 153, 1)',   // 22: Púrpura oscuro
-            'rgba(153, 153, 0, 1)',  // 23: Verde oliva claro
-            'rgba(153, 0, 153, 1)',  // 24: Púrpura claro
-            'rgba(0, 153, 153, 1)',  // 25: Cian oscuro
-            'rgba(153, 153, 153, 1)', // 26: Gris claro
-            'rgba(255, 153, 102, 1)', // 27: Naranja claro
-            'rgba(102, 255, 153, 1)', // 28: Verde claro
-            'rgba(153, 102, 255, 1)', // 29: Lila claro
-            'rgba(255, 255, 153, 1)', // 30: Amarillo claro
-            'rgba(255, 153, 255, 1)', // 31: Rosa claro
-            'rgba(0, 0, 0, 1)',      // 32: Negro
-            'rgba(0, 0, 0, 1)', // 33: Blanco
-            'rgba(85, 85, 85, 1)',   // 34: Gris oscuro
-            'rgba(0, 0, 0, 1)', // 36: Gris claro
-            'rgba(170, 170, 170, 1)' // 35: Gris medio
+            'rgba(25, 28, 175, 1)',         //azul
+            'rgba(255, 183, 0, 1)',         //bien
+            'rgba(60, 92, 169, 1)',         //cabal
+            'rgba(33, 51, 104, 1)',         //cambio
+            'rgba(241, 202, 49, 1)',    //creo
+            'rgba(255, 238, 0, 1)',         //elefante
+            'rgba(155, 50, 28, 1)',        //fcn
+            'rgba(157, 252, 60, 1)',    //familia
+            'rgba(37, 65, 164, 1)',        //prosperidad
+            'rgba(33, 41, 90, 1)',        //humanista
+            'rgba(0, 0, 0, 1)',        //pin
+            'rgba(9, 37, 88, 1)',           //nosotros
+            'rgba(48, 60, 98, 1)',        //republicano
+            'rgba(215, 223, 40, 1)',        //semilla
+            'rgba(102, 45, 145, 1)',        //todos
+            'rgba(80, 167, 0, 1)',          //une
+            'rgba(49, 49, 144, 1)',         //republicana
+            'rgba(235, 210, 156, 1)',    //urng - winaq
+            'rgba(0, 155, 160, 1)',        //valor - unionista
+            'rgba(0, 155, 160, 1)',         //valor
+            'rgba(0, 104, 172, 1)',         //vamos
+            'rgba(237, 28, 36, 1)',         //victoria
+            'rgba(0, 163, 230, 1)',         //viva
+            'rgba(227, 0, 130, 1)',         //vos
+            'rgba(213, 52, 58, 1)',         //podemos
+            'rgba(255, 195, 0, 1)',         //mlp
+            'rgba(192, 134, 112, 1)',    //cherifon
+            'rgba(118, 210, 37, 1)',    //justicia
+            'rgba(243, 225, 153, 1)',    //pan
+            'rgba(235, 210, 156, 1)',    //winaq
+            'rgba(202, 184, 10, 1)',    //urng
+            'rgba(0, 0, 0, 1)',      // nulos
+            'rgba(0, 0, 0, 1)', //blanco
+            'rgba(85, 85, 85, 1)',   //invalidos
+            'rgba(0, 0, 0, 1)', // impugnados
+            'rgba(170, 170, 170, 1)' // no usados
         ];
     }
     public function index()
     {
-        //dd($this->datosNoGraficados(1));
+        //dd($this->datosNoGraficados(['U','R']));
         // Recuperar todos los partidos
         $partidos = Partido::where('presidente', '>', 0)->get();
 
@@ -114,8 +114,8 @@ class AdminController extends Controller
 
             $datosPartido = [
                 'nombre' => $partido->siglas,
-                'color' => $this->colores[$partido->id - 1],
-                'colorB' => $this->coloresB[$partido->id - 1],
+                'color' => $this->colores[($partido->id) - 1],
+                'colorB' => $this->coloresB[($partido->id) - 1],
                 'id' => $partido->id,
             ];
             $partidosPres[] = $datosPartido;
@@ -129,8 +129,8 @@ class AdminController extends Controller
 
             $datosPartido = [
                 'nombre' => $partido->siglas,
-                'color' => $this->colores[$partido->id - 1],
-                'colorB' => $this->coloresB[$partido->id - 1],
+                'color' => $this->colores[($partido->id) - 1],
+                'colorB' => $this->coloresB[($partido->id) - 1],
                 'id' => $partido->id,
             ];
             $partidosDip[] = $datosPartido;
@@ -144,84 +144,106 @@ class AdminController extends Controller
 
             $datosPartido = [
                 'nombre' => $partido->siglas,
-                'color' => $this->colores[$partido->id - 1],
-                'colorB' => $this->coloresB[$partido->id - 1],
+                'color' => $this->colores[($partido->id) - 1],
+                'colorB' => $this->coloresB[($partido->id) - 1],
                 'id' => $partido->id,
             ];
             $partidosAl[] = $datosPartido;
             $i++;
         }
-
-        $partidos = Partido::all();
-        $i = 0;
-        foreach ($partidos as $partido) {
-
-            $datosPartido = [
-                'nombre' => $partido->siglas,
-                'color' => $this->colores[$partido->id - 1],
-                'colorB' => $this->coloresB[$partido->id - 1],
-                'id' => $partido->id,
-            ];
-            $partidosT[] = $datosPartido;
-            $i++;
-        }
-
-        return view('admin.index', compact('partidosPres', 'partidosAl', 'partidosDip', 'partidosT'));
+        //dd($partidosPres,$partidosAl,$partidosDip);
+        return view('admin.index', compact('partidosPres', 'partidosAl', 'partidosDip'));
     }
 
     public function datosNoGraficados($arregloOpciones)
     {
         $totalAlcalde = Resultado::where('validado', true)
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'A')
             ->where('partido_id', '<=', 31)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first()??0;
+            ->pluck('votes')->first() ?? 0;
         $totalPresidente = Resultado::where('validado', true)
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'P')
             ->where('partido_id', '<=', 31)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first()??0;
+            ->pluck('votes')->first() ?? 0;
         $totalDiputado = Resultado::where('validado', true)
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->where('boleta', 'D')
             ->where('partido_id', '<=', 31)
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->select(DB::raw('SUM(resultados.cantidad) as votes'))
-            ->pluck('votes')->first()??0;
-        $mesasComputadas = User::where(function ($query) {
-            $query->where('mesaValidadaPres', true)
-                ->where('mesaValidadaAl', true)
-                ->where('mesaValidadaDip', true);
-        })
-            ->orWhere(function ($query) {
-                $query->where('mesaImpugnada', true)
-                    ->where('mesavalidadaImp', true);
+            ->pluck('votes')->first() ?? 0;
+        $mesasComputadas = User::where('tipo', 2)
+            ->whereHas('centroVotaciones', function ($query) use ($arregloOpciones) {
+                $query->whereIn('sector', $arregloOpciones);
+            })
+            ->where(function ($query) {
+                $query->where(function ($query) {
+                    $query->where('mesaValidadaPres', true)
+                        ->where('mesaValidadaAl', true)
+                        ->where('mesaValidadaDip', true);
+                })
+                    ->orWhere(function ($query) {
+                        $query->where('mesaImpugnada', true)
+                            ->where('mesavalidadaImp', true);
+                    });
             })
             ->select(DB::raw('COUNT(mesa) as mesas'))
-            ->pluck('mesas')->first();
-        $mesasTotal = CentroVotacion::select(DB::raw('SUM(JRV) as mesas'))->pluck('mesas')->first();
-        $mesasPorcentaje = number_format(($mesasComputadas * 100) / $mesasTotal, 2) . '%';
-        $mesasImpugnadas = User::where('mesaImpugnada', true)
+            ->pluck('mesas')
+            ->first();
+        $centrosVotacion = DB::table('centro_votacion')
+            ->select('id')
+            ->whereIn('sector', $arregloOpciones)
+            ->where(function ($query) {
+                $query->where('JRV', '=', function ($subquery) {
+                    $subquery->selectRaw('count(*)')
+                        ->from('user_centro_votacion')
+                        ->whereColumn('user_centro_votacion.centro_votacion_id', '=', 'centro_votacion.id');
+                });
+            })
+            ->get();
+        $centroVotacionCompleto = $centrosVotacion->count();
+        $mesasTotal = CentroVotacion::whereIn('sector', $arregloOpciones)
+            ->select(DB::raw('SUM(JRV) as mesas'))->pluck('mesas')->first();
+        $mesasPorcentaje = ($mesasTotal != 0) ? (number_format(($mesasComputadas * 100) / $mesasTotal, 2) . '%') : 0;
+        $mesasImpugnadas = User::where('tipo', 2)
+            ->where('mesaImpugnada', true)
             ->where('mesaValidadaImp', true)
+            ->whereHas('centroVotaciones', function ($query) use ($arregloOpciones) {
+                $query->whereIn('sector', $arregloOpciones);
+            })
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')->first();
         $votosOtros = Resultado::where('validado', true)
             ->where('partido_id', '>=', 32)
             ->where('partido_id', '<=', 35)
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->groupBy('partidos.id', 'boleta')
             ->select('partidos.siglas as Tipo', 'boleta', DB::raw('SUM(cantidad) as votes'))
             ->get()->toArray();
         $votosEmitidosPorcentaje = Resultado::where('validado', true)
-            ->where('partido_id', '<', 36)
+            ->whereNotIn('partido_id', [34, 36])
+            ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
+            ->whereIn('centro_votacion.sector', $arregloOpciones)
             ->groupBy('boleta')
             ->select('boleta', DB::raw('SUM(cantidad) as votos'))
             ->get()->toArray();
-        $empadronados = CentroVotacion::select(DB::raw('SUM(empadronados) as empadronados'))->pluck('empadronados')->first();
+        $empadronados = CentroVotacion::whereIn('sector', $arregloOpciones)
+            ->select(DB::raw('SUM(empadronados) as empadronados'))->pluck('empadronados')->first() ?? 0;
         foreach ($votosEmitidosPorcentaje as &$resultado) {
             $resultado['porcentaje'] = number_format($resultado['votos'] * 100 / $empadronados, 2) . '%';
         }
         $jsonData = ['totalAlcalde' => $totalAlcalde];
         $jsonData += ['totalPresidente' => $totalPresidente];
         $jsonData += ['totalDiputado' => $totalDiputado];
+        $jsonData += ['centroVotacionCompletado' => $centroVotacionCompleto];
         $jsonData += ['mesasComputadasNumero' => $mesasComputadas];
         $jsonData += ['mesasComputadasPorcentaje' => $mesasPorcentaje];
         $jsonData += ['mesasImpugnadas' => $mesasImpugnadas];
@@ -248,9 +270,9 @@ class AdminController extends Controller
         return $jsonData;
     }
 
-    public function obtenerDatosGrafico(Request $request)
+    public function obtenerDatosGrafico($request)
     {
-        $arregloOpciones = explode(",", $request->input('arregloOpciones'));
+        $arregloOpciones = explode(",", $request);
 
         $datosExtra = $this->datosNoGraficados($arregloOpciones);
         $partidos = Partido::where('presidente', '>', 0)->get();

@@ -1,5 +1,5 @@
 <script>
-    var chart1, chart2, chart3;
+    var chart1, chart2, chart3, chart4;
     var intervaloActualizacion;
     var opcionesSeleccionadas = new Set(['U', 'R']);
 
@@ -32,7 +32,40 @@
         }
     }
 
-    function actualizarDatosGraficos(partidosPres, partidosAl, partidosDip) {
+    function buscarVotos(arreglo, tipo, boleta) {
+        for (let i = 0; i < arreglo.length; i++) {
+            const obj = arreglo[i];
+            if (obj.Tipo === tipo && obj.boleta === boleta) {
+                return parseInt(obj.votes);
+            }
+        }
+        return 0; // Devuelve 0 si no se encuentra coincidencia
+    }
+
+    function actualizarDatosGraficos(partidosPres, partidosAl, partidosDip, datosExtra) {
+        //datos de indicadores
+        document.getElementById("totalPresidente").innerText = datosExtra.totalPresidente;
+        document.getElementById("totalDiputado").innerText = datosExtra.totalDiputado;
+        document.getElementById("totalAlcalde").innerText = datosExtra.totalAlcalde;
+        document.getElementById("centrosCompletos").innerText = datosExtra.centroVotacionCompletado;
+        document.getElementById("mesasComputadasNumero").innerHTML = datosExtra.mesasComputadasNumero +
+            "<small class='text-md ml-3'>(" + datosExtra.mesasComputadasPorcentaje + ")</small>";
+        document.getElementById("mesasImpugnadas").innerText = datosExtra.mesasImpugnadas;
+
+        //otros Votos
+        document.getElementById("np").innerText = buscarVotos(datosExtra.votosOtros, 'NULOS', 'P');
+        document.getElementById("nd").innerText = buscarVotos(datosExtra.votosOtros, 'NULOS', 'D');
+        document.getElementById("na").innerText = buscarVotos(datosExtra.votosOtros, 'NULOS', 'A');
+        document.getElementById("bp").innerText = buscarVotos(datosExtra.votosOtros, 'EN BLANCO', 'P');
+        document.getElementById("bd").innerText = buscarVotos(datosExtra.votosOtros, 'EN BLANCO', 'D');
+        document.getElementById("ba").innerText = buscarVotos(datosExtra.votosOtros, 'EN BLANCO', 'A');
+        document.getElementById("vp").innerText = buscarVotos(datosExtra.votosOtros, 'EXTRAVIADOS', 'P');
+        document.getElementById("vd").innerText = buscarVotos(datosExtra.votosOtros, 'EXTRAVIADOS', 'D');
+        document.getElementById("va").innerText = buscarVotos(datosExtra.votosOtros, 'EXTRAVIADOS', 'A');
+        document.getElementById("ip").innerText = buscarVotos(datosExtra.votosOtros, 'IMPUGNADOS', 'P');
+        document.getElementById("id").innerText = buscarVotos(datosExtra.votosOtros, 'IMPUGNADOS', 'D');
+        document.getElementById("ia").innerText = buscarVotos(datosExtra.votosOtros, 'IMPUGNADOS', 'A');
+
         // Preparar los datos para cada tipo de boleta
         var datosPresidente = partidosPres.map(function(item) {
             return item.total;
@@ -46,6 +79,8 @@
             return item.total;
         });
 
+
+
         var maxDataValue = Math.max(...datosPresidente, ...datosAlcalde, ...datosDiputado);
 
         // Agregar un margen a los datos
@@ -57,6 +92,17 @@
         chart2.data.datasets[0].data = datosAlcalde;
         chart3.data.datasets[0].data = datosDiputado;
 
+        //Actualizar el de concejales este es distinto porque se actualiza todo
+        var datosConcejalEnt = datosExtra.concejales.map(function(item) {
+            return item.ent
+        });
+        var datosConcejalSeats = datosExtra.concejales.map(function(item) {
+            return item.seats
+        });
+
+        chart4.data.labels = datosConcejalEnt;
+        chart4.data.datasets[0].data = datosConcejalSeats;
+
         // Actualizar los límites del eje y en cada gráfico
         chart1.options.scales.y.max = maxDataValueWithMargin;
         chart2.options.scales.y.max = maxDataValueWithMargin;
@@ -67,6 +113,7 @@
         chart1.update();
         chart2.update();
         chart3.update();
+        chart4.update();
     }
 
     function crearGraficos() {
@@ -132,7 +179,7 @@
                     backgroundColor: datosAl.map(function(item) {
                         return item.color;
                     }),
-                    borderColor: datosPres.map(function(item) {
+                    borderColor: datosAl.map(function(item) {
                         return item.colorB;
                     }),
                     borderWidth: 1,
@@ -168,7 +215,7 @@
                     backgroundColor: datosDip.map(function(item) {
                         return item.color;
                     }),
-                    borderColor: datosPres.map(function(item) {
+                    borderColor: datosDip.map(function(item) {
                         return item.colorB;
                     }),
                     borderWidth: 1,
@@ -192,6 +239,36 @@
                 }
             }
         });
+        var ctx4 = document.getElementById('grafico-concejales').getContext('2d');
+        chart4 = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Total',
+                    data: [],
+                    borderWidth: 1,
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top'
+                    }
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Ocultar la leyenda
+                    }
+                }
+            }
+        });
+
     }
 
     function refrescarGraficos(arregloOpciones) {
@@ -211,7 +288,7 @@
                 return response.json();
             })
             .then(function(data) {
-                actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip);
+                actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip, data.noGraficables);
             })
             .catch(function(error) {
                 console.log(error);
@@ -225,7 +302,8 @@
                     return response.json();
                 })
                 .then(function(data) {
-                    actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip);
+                    actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip, data
+                        .noGraficables);
                 })
                 .catch(function(error) {
                     console.log(error);

@@ -4,6 +4,22 @@
 Usuarios
 @endsection
 
+@section("styles")
+<link rel="stylesheet" href="{{asset("assets/$theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css")}}">
+<link rel="stylesheet" href="{{asset("assets/$theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css")}}">
+@endsection
+
+@section("scriptPlugins")
+<script src="{{asset("assets/$theme/plugins/datatables/jquery.dataTables.min.js")}}"></script>
+<script src="{{asset("assets/$theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js")}}"></script>
+<script src="{{asset("assets/$theme/plugins/datatables-responsive/js/dataTables.responsive.min.js")}}"></script>
+<script src="{{asset("assets/$theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js")}}"></script>
+@endsection
+
+@section("scripts")
+<script src="{{asset("assets/pages/scripts/admin/table.js")}}" type="text/javascript"></script>
+@endsection
+
 @section('aside')
     @include('admin.users.aside')
 @endsection
