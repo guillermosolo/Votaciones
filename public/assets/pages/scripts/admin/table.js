@@ -4,11 +4,12 @@ $(function () {
             {
                 "orderable": false,
                 "searchable": false,
-                "targets": -1
+                "targets": -1,
             }
         ],
+        "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"] ],
       "responsive": true,
-      "autoWidth": true,
+      "autoWidth": false,
       "language": {
         "decimal":        "",
         "emptyTable":     "No hay datos disponibles para la tabla",

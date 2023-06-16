@@ -1,3 +1,7 @@
+div.dataTables_length select{
+    padding-right: 30px !important;
+    }
+
 label.requerido:after {
     content: "*";
     color: #e73d4a;
