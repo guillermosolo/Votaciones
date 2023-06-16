@@ -196,17 +196,22 @@ class AdminController extends Controller
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')
             ->first();
-        $centrosVotacion = DB::table('centro_votacion')
-            ->select('id')
-            ->whereIn('sector', $arregloOpciones)
-            ->where(function ($query) {
-                $query->where('JRV', '=', function ($subquery) {
-                    $subquery->selectRaw('count(*)')
-                        ->from('user_centro_votacion')
-                        ->whereColumn('user_centro_votacion.centro_votacion_id', '=', 'centro_votacion.id');
+        $centrosVotacion = CentroVotacion::whereHas('users', function ($query) {
+            $query->where('tipo', 2) // Filtrar por tipo de usuario igual a 2
+                ->where(function ($subQuery) {
+                    $subQuery->where('mesaValidadaImp', true)
+                        ->orWhere(function ($nestedSubQuery) {
+                            $nestedSubQuery->where('mesaValidadaPres', 1)
+                                ->where('mesaValidadaAl', 1)
+                                ->where('mesaValidadaDip', 1);
+                        });
                 });
-            })
-            ->get();
+        })
+        ->withCount(['users AS user_count' => function ($query) {
+            $query->where('tipo', 2);
+        }]) // Contar usuarios relacionados con tipoUsuario igual a 2
+        ->havingRaw('jrv = user_count') // Comparar campo JRV con el conteo
+        ->get();
         $centroVotacionCompleto = $centrosVotacion->count();
         $mesasTotal = CentroVotacion::whereIn('sector', $arregloOpciones)
             ->select(DB::raw('SUM(JRV) as mesas'))->pluck('mesas')->first();
