@@ -196,23 +196,30 @@ class AdminController extends Controller
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')
             ->first();
-        $centrosVotacion = CentroVotacion::whereHas('users', function ($query) {
-            $query->where('tipo', 2) // Filtrar por tipo de usuario igual a 2
-                ->where(function ($subQuery) {
-                    $subQuery->where('mesaValidadaImp', true)
-                        ->orWhere(function ($nestedSubQuery) {
-                            $nestedSubQuery->where('mesaValidadaPres', 1)
-                                ->where('mesaValidadaAl', 1)
-                                ->where('mesaValidadaDip', 1);
+
+        $centrosVotacion = CentroVotacion::select('id','nombre','jrv')->whereIn('sector', $arregloOpciones)->get();
+
+        $centrosDeVotacionConUsuariosTipo2 = CentroVotacion::withCount(['users as usuarios_tipo_2' => function ($query) {
+            $query->where('tipo', 2)
+                ->where(function ($query) {
+                    $query->where('mesaValidadaImp', true)
+                        ->orWhere(function ($query) {
+                            $query->where('mesaValidadaPres', true)
+                                ->where('mesaValidadaDip', true)
+                                ->where('mesaValidadaAl', true);
                         });
                 });
-        })
-        ->withCount(['users AS user_count' => function ($query) {
-            $query->where('tipo', 2);
-        }]) // Contar usuarios relacionados con tipoUsuario igual a 2
-        ->havingRaw('jrv = user_count') // Comparar campo JRV con el conteo
-        ->get();
-        $centroVotacionCompleto = $centrosVotacion->count();
+        }])->get();
+
+        $centroVotacionCompleto = 0;
+
+        foreach($centrosVotacion as $centro){
+            $centroConUsuario = $centrosDeVotacionConUsuariosTipo2->find($centro->id);
+            if($centro->jrv == $centroConUsuario->usuarios_tipo_2){
+                $centroVotacionCompleto=$centroVotacionCompleto+1;
+            }
+        }
+
         $mesasTotal = CentroVotacion::whereIn('sector', $arregloOpciones)
             ->select(DB::raw('SUM(JRV) as mesas'))->pluck('mesas')->first();
         $mesasPorcentaje = ($mesasTotal != 0) ? (number_format(($mesasComputadas * 100) / $mesasTotal, 2) . '%') : 0;
@@ -224,15 +231,17 @@ class AdminController extends Controller
             })
             ->select(DB::raw('COUNT(mesa) as mesas'))
             ->pluck('mesas')->first();
+
         $votosOtros = Resultado::where('validado', true)
             ->where('partido_id', '>=', 32)
             ->where('partido_id', '<=', 35)
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
             ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
             ->whereIn('centro_votacion.sector', $arregloOpciones)
-            ->groupBy('partidos.id', 'boleta')
+            ->groupBy('partidos.siglas', 'boleta')
             ->select('partidos.siglas as Tipo', 'boleta', DB::raw('SUM(cantidad) as votes'))
             ->get()->toArray();
+
         $votosEmitidosPorcentaje = Resultado::where('validado', true)
             ->whereNotIn('partido_id', [34, 36])
             ->join('centro_votacion', 'resultados.centro_id', '=', 'centro_votacion.id')
@@ -261,9 +270,10 @@ class AdminController extends Controller
             ->where('boleta', 'A')
             ->where('partido_id', '<=', 31)
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
-            ->groupBy('partidos.id')
+            ->groupBy('partidos.siglas')
             ->select('partidos.siglas as ent', DB::raw('SUM(resultados.cantidad) as votes'), DB::raw('0 as seats'), DB::raw('true as ok'))
             ->get();
+
         if ($resultados->isEmpty()) {
             $jsonData += ['concejales' => []];
         } else {
