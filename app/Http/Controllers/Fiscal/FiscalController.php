@@ -17,6 +17,7 @@ class FiscalController extends Controller
     {
         $usuario = Auth::user();
         $usuario->todosDatos = Auth::user()->todosDatos();
+        //dd($usuario);
         return view('fiscal.index', compact('usuario'));
     }
 

@@ -64,12 +64,14 @@ class SupervisorController extends Controller
         return view('supervisor.presidente.index', compact('datas', 'centroVotacion', 'mesa', 'fiscal', 'imagenes'));
     }
 
-    public function validarImp($centroVotacion, $mesa, $fiscal){
+    public function validarImp($centroVotacion, $mesa, $fiscal)
+    {
         $imagenes = $this->listarArchivos($centroVotacion, $mesa, 'I');
         return view('supervisor.impugnada.index', compact('centroVotacion', 'mesa', 'fiscal', 'imagenes'));
     }
 
-    public function updateImp(Request $request){
+    public function updateImp(Request $request)
+    {
         $fiscal = $request->input('fiscal');
         $centro = $request->input('centro');
         $mesa = $request->input('mesa');
@@ -106,28 +108,28 @@ class SupervisorController extends Controller
 
     public function update(Request $request)
     {
-        $mesa = $request->input('mesa');
-        $centro = $request->input('centro');
-        $boleta = $request->input('boleta');
-        $votos = $request->input('votos');
-        $partidos = $request->input('partido');
-        $fiscal = $request->input('fiscal');
-        $cantidadVotos = array_sum($votos);
-        switch ($boleta) {
-            case 'A':
-                $ruta = 'validarAl';
-                $campo = 'mesaValidadaAl';
-                break;
-            case 'D':
-                $ruta = 'validarDip';
-                $campo = 'mesaValidadaDip';
-                break;
-            case 'P':
-                $ruta = 'validarPresi';
-                $campo = 'mesaValidadaPres';
-                break;
-        }
         try {
+            $mesa = $request->input('mesa');
+            $centro = $request->input('centro');
+            $boleta = $request->input('boleta');
+            $votos = $request->input('votos');
+            $partidos = $request->input('partido');
+            $fiscal = $request->input('fiscal');
+            switch ($boleta) {
+                case 'A':
+                    $ruta = 'validarAl';
+                    $campo = 'mesaValidadaAl';
+                    break;
+                case 'D':
+                    $ruta = 'validarDip';
+                    $campo = 'mesaValidadaDip';
+                    break;
+                case 'P':
+                    $ruta = 'validarPresi';
+                    $campo = 'mesaValidadaPres';
+                    break;
+            }
+
             // Iniciar la transacción
             DB::beginTransaction();
 
@@ -142,7 +144,6 @@ class SupervisorController extends Controller
                     ->where('partido_id', $partido)
                     ->lockForUpdate() // Opcional: bloquear las filas para evitar conflictos de concurrencia
                     ->firstOrFail();
-
                 // Actualizar el campo cantidad con el valor del voto correspondiente
                 $resultado->cantidad = $voto;
                 $resultado->validado = true;
@@ -160,6 +161,7 @@ class SupervisorController extends Controller
             DB::rollBack();
             return redirect()->route($ruta, ['centroVotacion' => $centro, 'mesa' => $mesa, 'fiscal' => $fiscal])->withErrors(['catch', 'No se pudo validar debido a un error en el sistema', $e->getMessage()]);
         }
+        $cantidadVotos = array_sum($votos);
         $centroNombre = CentroVotacion::where('id', $centro)->value('nombre');
         return redirect()->route('menuSuper', ['centroVotacion' => $centro])->with('mensaje', "Se validaron correctamente $cantidadVotos votos del Centro de Votacion $centroNombre Mesa No. $mesa");
     }

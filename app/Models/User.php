@@ -76,7 +76,8 @@ class User extends Authenticatable
 
     public function todosDatos()
     {
-        $boletas = Resultado::select(DB::raw('COUNT(DISTINCT boleta) as conteo'))->first();
+        $mesa = $this->attributes['mesa'];
+        $boletas = Resultado::select(DB::raw('COUNT(DISTINCT boleta) as conteo'))->where('mesa',$mesa)->first();
         $conteo = $boletas->conteo;
         if ($conteo == 3) {
             return true;
