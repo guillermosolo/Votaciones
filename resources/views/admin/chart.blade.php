@@ -79,14 +79,6 @@
             return item.total;
         });
 
-
-
-        var maxDataValue = Math.max(...datosPresidente, ...datosAlcalde, ...datosDiputado);
-
-        // Agregar un margen a los datos
-        var margin = 50; // Ajusta este valor según tus necesidades
-        var maxDataValueWithMargin = maxDataValue + margin;
-
         // Actualizar los datos de cada gráfico
         chart1.data.datasets[0].data = datosPresidente;
         chart2.data.datasets[0].data = datosAlcalde;
@@ -102,12 +94,6 @@
 
         chart4.data.labels = datosConcejalEnt;
         chart4.data.datasets[0].data = datosConcejalSeats;
-
-        // Actualizar los límites del eje y en cada gráfico
-        chart1.options.scales.y.max = maxDataValueWithMargin;
-        chart2.options.scales.y.max = maxDataValueWithMargin;
-        chart3.options.scales.y.max = maxDataValueWithMargin;
-
 
         // Actualizar el gráfico
         chart1.update();
@@ -157,7 +143,21 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        afterLayout: function(scale) {
+                            var gridLines = scale.options.gridLines;
+                            var stepSize = scale.options.ticks.stepSize;
+                            var max = scale.max;
+
+                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
+
+                            if (gridLines.display && adjustedMax > max) {
+                                scale.max = adjustedMax;
+                                scale.options.ticks.max = adjustedMax;
+                                scale.options.ticks.minorMax = adjustedMax;
+                                scale.chart.update();
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -193,7 +193,21 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        afterLayout: function(scale) {
+                            var gridLines = scale.options.gridLines;
+                            var stepSize = scale.options.ticks.stepSize;
+                            var max = scale.max;
+
+                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
+
+                            if (gridLines.display && adjustedMax > max) {
+                                scale.max = adjustedMax;
+                                scale.options.ticks.max = adjustedMax;
+                                scale.options.ticks.minorMax = adjustedMax;
+                                scale.chart.update();
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -229,7 +243,21 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        afterLayout: function(scale) {
+                            var gridLines = scale.options.gridLines;
+                            var stepSize = scale.options.ticks.stepSize;
+                            var max = scale.max;
+
+                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
+
+                            if (gridLines.display && adjustedMax > max) {
+                                scale.max = adjustedMax;
+                                scale.options.ticks.max = adjustedMax;
+                                scale.options.ticks.minorMax = adjustedMax;
+                                scale.chart.update();
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -239,6 +267,8 @@
                 }
             }
         });
+
+        var adjustedMax;
         var ctx4 = document.getElementById('grafico-concejales').getContext('2d');
         chart4 = new Chart(ctx4, {
             type: 'bar',
@@ -258,7 +288,8 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        max: 14
                     }
                 },
                 plugins: {
@@ -288,7 +319,8 @@
                 return response.json();
             })
             .then(function(data) {
-                actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip, data.noGraficables);
+                actualizarDatosGraficos(data.partidosPres, data.partidosAl, data.partidosDip, data
+                    .noGraficables);
             })
             .catch(function(error) {
                 console.log(error);
