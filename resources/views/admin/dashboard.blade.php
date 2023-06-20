@@ -78,8 +78,8 @@
             <div class="card-header">
                 Votos
             </div>
-            <div class="card-body">
-                <table class="table table-striped table-hover table-responsive text-md cartas1" style="width: 100%; height: 25vh">
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-hover text-md cartas1" style="width: 100%; height: 25vh">
                     <thead class='thead-dark'>
                         <tr>
                             <th></th>
@@ -124,7 +124,7 @@
                 Concejales
             </div>
             <div class="card-body">
-                <div class="chart-container cartas1" style="width: 100%; height: 25vh">
+                <div class="chart-container cartas1" style="width: 100%; height: 40vh">
                     <canvas id="grafico-concejales"></canvas>
                 </div>
             </div>

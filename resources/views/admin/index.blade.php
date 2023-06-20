@@ -20,7 +20,7 @@
 
         .cartas1 {
             width: 100%;
-            height: 25vh;
+            height: 40vh;
         }
 
         @media only screen and (max-width: 850px) and (orientation:portrait) {
