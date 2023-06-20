@@ -11,10 +11,11 @@
         <li class="nav-item">
             <div class="row">
                 <div class="col-sm-1">
-                    <img src="{{ asset("assets/$theme/dist/img/noimage.svg") }}" class="img-size-50  user-image">
+                    <img src="{{ asset("assets/$theme/dist/img/noimage.svg") }}" class="img-size-50 user-image">
                 </div>
                 <div class="col-sm-10">
-                    <span class="ml-2 mr-5 text-sm">{{ auth()->user()->name }}</span>
+                    <span class="ml-3 mr-5">{{ auth()->user()->name }}</span>
+                    <span class="ml-3 mr-5 text-xs" style="display:flex">Administrador del Sistema</span>
                 </div>
         </li>
         <li class="nav-item">
