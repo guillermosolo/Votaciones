@@ -144,20 +144,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        afterLayout: function(scale) {
-                            var gridLines = scale.options.gridLines;
-                            var stepSize = scale.options.ticks.stepSize;
-                            var max = scale.max;
-
-                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
-
-                            if (gridLines.display && adjustedMax > max) {
-                                scale.max = adjustedMax;
-                                scale.options.ticks.max = adjustedMax;
-                                scale.options.ticks.minorMax = adjustedMax;
-                                scale.chart.update();
-                            }
-                        }
+                        grace: '5%',
                     }
                 },
                 plugins: {
@@ -194,20 +181,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        afterLayout: function(scale) {
-                            var gridLines = scale.options.gridLines;
-                            var stepSize = scale.options.ticks.stepSize;
-                            var max = scale.max;
-
-                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
-
-                            if (gridLines.display && adjustedMax > max) {
-                                scale.max = adjustedMax;
-                                scale.options.ticks.max = adjustedMax;
-                                scale.options.ticks.minorMax = adjustedMax;
-                                scale.chart.update();
-                            }
-                        }
+                        grace: '5%'
                     }
                 },
                 plugins: {
@@ -244,20 +218,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        afterLayout: function(scale) {
-                            var gridLines = scale.options.gridLines;
-                            var stepSize = scale.options.ticks.stepSize;
-                            var max = scale.max;
-
-                            var adjustedMax = Math.ceil(max / stepSize) * stepSize;
-
-                            if (gridLines.display && adjustedMax > max) {
-                                scale.max = adjustedMax;
-                                scale.options.ticks.max = adjustedMax;
-                                scale.options.ticks.minorMax = adjustedMax;
-                                scale.chart.update();
-                            }
-                        }
+                        grace: '5%',
                     }
                 },
                 plugins: {
@@ -289,7 +250,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 14
+                        grace:'5%',
                     }
                 },
                 plugins: {
