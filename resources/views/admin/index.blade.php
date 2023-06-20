@@ -23,6 +23,23 @@
             height: 40vh;
         }
 
+        .info-box-content {
+            overflow: auto;
+        }
+
+        .info-box-text {
+            word-wrap: break-word;
+            font-size: 16px !important;
+        }
+
+        .info-box-number {
+            font-size: 24px !important;
+        }
+
+        .info-box-num2 {
+            font-size: 12px !important;
+        }
+
         @media only screen and (max-width: 850px) and (orientation:portrait) {
             .chart-container {
                 height: 40vh !important;
@@ -79,7 +96,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu"
                     id="mprincipal" data-accordion="true">
                     <!-- Add icons to the links using the .nav-icon class
-                           with font-awesome or any other icon font library -->
+                               with font-awesome or any other icon font library -->
                     <li class="nav-header">MENÚ PRINCIPAL</li>
                     <li class="nav-item">
                         <a href="#" class="nav-link active">

@@ -5,67 +5,67 @@
         <label for="checkboxRural">Rural</label>
         <input type="checkbox" id="checkboxRural" name="arregloOpciones[]" value="R" checked>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-light elevation-1"><i class="fas fa-user-tie"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Presidente</span>
-                <span class="info-box-number text-xl" id="totalPresidente">
+                <span class="info-box-text">Presidente</span>
+                <span class="info-box-number" id="totalPresidente">
                     0
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user-tie"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Diputado</span>
-                <span class="info-box-number text-xl" id="totalAlcalde">
+                <span class="info-box-text">Diputado</span>
+                <span class="info-box-number" id="totalAlcalde">
                     0
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-pink elevation-1"><i class="fas fa-user-tie"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Alcalde</span>
-                <span class="info-box-number text-xl" id="totalDiputado">
+                <span class="info-box-text">Alcalde</span>
+                <span class="info-box-number" id="totalDiputado">
                     0
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-dark elevation-1"><i class="fas fa-hotel"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Centros Completos</span>
-                <span class="info-box-number text-xl" id="centrosCompletos">
+                <span class="info-box-text">Centros Completos</span>
+                <span class="info-box-number" id="centrosCompletos">
                     0
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-dark elevation-1"><i class="fas fa-map"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Mesas Computadas</span>
-                <span class="info-box-number text-xl" id="mesasComputadasNumero">
-                    0<small class="text-md"> (0%)</small>
+                <span class="info-box-text">Mesas Computadas</span>
+                <span class="info-box-number" id="mesasComputadasNumero">
+                    0<span class="info-box-num2"> (0%)</span>
                 </span>
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="info-box">
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-map-marked"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text text-md">Mesas Impugnadas</span>
-                <span class="info-box-number text-xl" id="mesasImpugnadas">
+                <span class="info-box-text">Mesas Impugnadas</span>
+                <span class="info-box-number" id="mesasImpugnadas">
                     0
                 </span>
             </div>
