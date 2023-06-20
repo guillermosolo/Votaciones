@@ -91,9 +91,17 @@
         var datosConcejalSeats = datosExtra.concejales.map(function(item) {
             return item.seats
         });
+        var datosConcejalColor = datosExtra.concejales.map(function(item) {
+            return item.color
+        });
+        var datosConcejalColorB = datosExtra.concejales.map(function(item) {
+            return item.colorB
+        });
 
         chart4.data.labels = datosConcejalEnt;
         chart4.data.datasets[0].data = datosConcejalSeats;
+        chart4.data.datasets[0].backgroundColor = datosConcejalColor;
+        chart4.data.datasets[0].borderColor = datosConcejalColorB;
 
         // Actualizar el gráfico
         chart1.update();
@@ -229,7 +237,6 @@
             }
         });
 
-        var adjustedMax;
         var ctx4 = document.getElementById('grafico-concejales').getContext('2d');
         chart4 = new Chart(ctx4, {
             type: 'bar',
@@ -250,7 +257,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grace:'5%',
+                        grace: '5%',
                     }
                 },
                 plugins: {

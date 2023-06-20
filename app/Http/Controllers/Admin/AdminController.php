@@ -270,8 +270,8 @@ class AdminController extends Controller
             ->where('boleta', 'A')
             ->where('partido_id', '<=', 31)
             ->join('partidos', 'resultados.partido_id', '=', 'partidos.id')
-            ->groupBy('partidos.siglas')
-            ->select('partidos.siglas as ent', DB::raw('SUM(resultados.cantidad) as votes'), DB::raw('0 as seats'), DB::raw('true as ok'))
+            ->groupBy('partidos.id','partidos.siglas')
+            ->select('partidos.id as id','partidos.siglas as ent', DB::raw('SUM(resultados.cantidad) as votes'), DB::raw('0 as seats'), DB::raw('true as ok'))
             ->get();
 
         if ($resultados->isEmpty()) {
@@ -280,6 +280,10 @@ class AdminController extends Controller
             $d->addParties($resultados->toArray());
             $d->process();
             $data = $d->getPartiesOK();
+            foreach ($data as &$dato){
+                $dato['color'] = $this->colores[$dato['id'] - 1];
+                $dato['colorB'] = $this->coloresB[$dato['id'] - 1];
+            }
             $jsonData += ['concejales' => $data];
         }
         return $jsonData;
