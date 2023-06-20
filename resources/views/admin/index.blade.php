@@ -3,13 +3,66 @@
 @endsection
 
 @section('scriptPlugins')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 @endsection
 
 @section('scripts')
     @include('admin.chart')
+@endsection
+
+@section('styles')
+    <style>
+        .chart-container {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .cartas1 {
+            width: 100%;
+            height: 25vh;
+        }
+
+        @media only screen and (max-width: 850px) and (orientation:portrait) {
+            .chart-container {
+                height: 40vh !important;
+            }
+
+            .cartas1 {
+                height: 30vh !important;
+            }
+        }
+
+        @media only screen and (max-height: 850px) and (orientation:portrait) {
+            .chart-container {
+                height: 20vh !important;
+            }
+
+            .cartas1 {
+                height: 30vh !important;
+            }
+        }
+
+        @media only screen and (max-height: 850px) and (orientation:landscape) {
+            .chart-container {
+                height: 60vh !important;
+            }
+
+            .cartas1 {
+                height: 30vh !important;
+            }
+        }
+
+        @media only screen and (max-height: 480px) and (orientation: landscape) {
+            .chart-container {
+                height: 90vh !important;
+            }
+
+            .cartas1 {
+                height: 65vh !important;
+            }
+        }
+    </style>
 @endsection
 
 @section('aside')
@@ -26,7 +79,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu"
                     id="mprincipal" data-accordion="true">
                     <!-- Add icons to the links using the .nav-icon class
-                       with font-awesome or any other icon font library -->
+                           with font-awesome or any other icon font library -->
                     <li class="nav-header">MENÚ PRINCIPAL</li>
                     <li class="nav-item">
                         <a href="#" class="nav-link active">

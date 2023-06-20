@@ -149,6 +149,8 @@
             },
             plugins: [ChartDataLabels],
             options: {
+                responsive: true,
+                maintainAspectratio: false,
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -186,6 +188,8 @@
             },
             plugins: [ChartDataLabels],
             options: {
+                responsive: true,
+                maintainAspectratio: false,
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -223,6 +227,8 @@
             },
             plugins: [ChartDataLabels],
             options: {
+                responsive: true,
+                maintainAspectratio: false,
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -254,6 +260,8 @@
             },
             plugins: [ChartDataLabels],
             options: {
+                responsive: true,
+                maintainAspectratio: false,
                 scales: {
                     y: {
                         beginAtZero: true,
