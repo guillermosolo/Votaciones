@@ -54,9 +54,11 @@ class UsuarioController extends Controller
         $user->mesa = $request->input('mesa');
         $user->activo = $request->input('activo');
         $centros = $request->input('centro_id');
-        foreach ($centros as $key => $centroId) {
-            if ($centroId == 0) {
-                unset($centros[$key]);
+        if (!empty($centros)) {
+            foreach ($centros as $key => $centroId) {
+                if ($centroId == 0) {
+                    unset($centros[$key]);
+                }
             }
         }
         $user->centroVotaciones()->sync($centros);
