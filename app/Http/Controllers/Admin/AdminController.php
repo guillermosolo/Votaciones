@@ -264,7 +264,7 @@ class AdminController extends Controller
         $jsonData += ['votosOtros' => $votosOtros];
         $jsonData += ['porcentajeVotantes' => $votosEmitidosPorcentaje];
         $d = new Dhondt;
-        $d->seats = 14;
+        $d->seats = 10;
         $d->min = 0;
         $resultados = Resultado::where('validado', true)
             ->where('boleta', 'A')
