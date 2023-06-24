@@ -21,7 +21,7 @@
             <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user-tie"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Diputado</span>
-                <span class="info-box-number" id="totalAlcalde">
+                <span class="info-box-number" id="totalDiputado">
                     0
                 </span>
             </div>
@@ -32,7 +32,7 @@
             <span class="info-box-icon bg-pink elevation-1"><i class="fas fa-user-tie"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Alcalde</span>
-                <span class="info-box-number" id="totalDiputado">
+                <span class="info-box-number" id="totalAlcalde">
                     0
                 </span>
             </div>
@@ -135,6 +135,19 @@
 <div class="row">
     <!-- <div class="col-md-12"> -->
     <div class="col-md-12">
+        <div class="card card-outline card-pink">
+            <div class="card-header">
+                Alcalde
+            </div>
+            <div class="card-body">
+                <div class="chart-container" style="width: 100%; height: 80vh">
+                    <canvas id="grafico-alcalde"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
         <div class="card card-outline card-dark">
             <div class="card-header">
                 Presidente
@@ -155,19 +168,6 @@
             <div class="card-body">
                 <div class="chart-container" style="width: 100%; height: 80vh">
                     <canvas id="grafico-diputado"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="card card-outline card-pink">
-            <div class="card-header">
-                Alcalde
-            </div>
-            <div class="card-body">
-                <div class="chart-container" style="width: 100%; height: 80vh">
-                    <canvas id="grafico-alcalde"></canvas>
                 </div>
             </div>
         </div>
