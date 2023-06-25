@@ -89,7 +89,7 @@ class FiscalController extends Controller
             $fileName = $boleta . '_' . $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
             while (Storage::disk('public')->exists("$fileName")) {
                 $correlativo++;
-                $fileName = $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
+                $fileName = $boleta . '_' . $centroId . '_' . $mesa . '_' . $correlativo . '.' . $extension;
             }
 
             $file->storeAs('', $fileName, 'public');
